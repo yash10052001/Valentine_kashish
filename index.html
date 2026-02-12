@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -86,5 +86,174 @@ button.style.left = x + "px";
 button.style.top = y + "px";
 }
 </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? ❤️</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef2;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        #main-gif, #success-gif {
+            max-width: 250px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        #yesButton {
+            background-color: #ff4d6d;
+            color: white;
+            z-index: 1000;
+        }
+
+        #noButton {
+            background-color: #8a8a8a;
+            color: white;
+            z-index: 999;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Heart Animation */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            font-size: 2rem;
+            color: #ff4d6d;
+            user-select: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="valentine-question">
+            <img id="main-gif" src="https://media.giphy.com/media/L4lvBzeIlMtJC/giphy.gif" alt="Teddy Bear">
+            <h1>Will you be my Valentine? ❤️</h1>
+            <div class="buttons">
+                <button id="yesButton">Yes</button>
+                <button id="noButton">No</button>
+            </div>
+        </div>
+
+        <div id="success-message" class="hidden">
+            <img id="success-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM290Nzh2NHA5ZmxwdXo4OXBvYm1uYm4ydXo5ZnI0ZnEzdWFoY3FkdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9xyIs6T8YkNoD5YF2T/giphy.gif" alt="Happy Teddy Bear">
+            <h1>Hehehe I knew it! Love you! ❤️😘</h1>
+        </div>
+    </div>
+
+    <script>
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const questionSection = document.getElementById('valentine-question');
+        const successSection = document.getElementById('success-message');
+
+        let noClickCount = 0;
+        const messages = [
+            "No", "Are you sure?", "Really sure??", "Think again!", 
+            "Pleease? 🥺", "I'll be very sad...", "Last chance!", "Pretty please?"
+        ];
+
+        noButton.addEventListener('click', () => {
+            noClickCount++;
+            
+            // 1. Update text
+            const messageIndex = Math.min(noClickCount, messages.length - 1);
+            noButton.innerText = messages[messageIndex];
+
+            // 2. Make Yes button bigger
+            const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+            yesButton.style.fontSize = (currentSize * 1.4) + "px";
+            yesButton.style.padding = (currentSize * 0.8) + "px " + (currentSize * 1.5) + "px";
+
+            // 3. Teleport No Button
+            const maxX = window.innerWidth - noButton.offsetWidth - 20;
+            const maxY = window.innerHeight - noButton.offsetHeight - 20;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noButton.style.position = "fixed";
+            noButton.style.left = randomX + "px";
+            noButton.style.top = randomY + "px";
+        });
+
+        yesButton.addEventListener('click', () => {
+            questionSection.classList.add('hidden');
+            successSection.classList.remove('hidden');
+            noButton.style.display = 'none';
+            startHearts();
+        });
+
+        // Heart Rain Effect
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
 </body>
 </html>
